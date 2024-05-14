@@ -32,15 +32,25 @@ class Quiz {
     else return true;
   }
 
-//   filterQuestionsByDifficulty(difficulty){
-//     if (difficulty >= 4 && difficulty <= 0){
-//         return
-//     } else {
-//         this.questions = this.questions.filter((question) => {
-//         return question.difficulty === difficulty;
-//     });
-}
+  filterQuestionsByDifficulty(difficulty) {
+    if (difficulty >= 1 && difficulty <= 3 && typeof difficulty === "number") {
+      this.questions = this.questions.filter(
+        (question) => question.difficulty === difficulty
+      );
+    }
   }
 
-  averageDifficulty() {}
+  // averageDifficulty() {
+  //   const avgDif = this.questions.reduce((acc, curr) => {
+  //     return acc + curr.difficulty;
+  //   }, 0);
+  //   return avgDif / this.questions.length;
+  // }
+
+  averageDifficulty() {
+    return (
+      this.questions.reduce((acc, curr) => acc + curr.difficulty, 0) /
+      this.questions.length
+    );
+  }
 }
