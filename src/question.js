@@ -7,8 +7,6 @@ class Question {
   }
 
   shuffleChoices() {
-    this.choices.sort(() => {
-      return Math.random() - 0.5;
-    });
+    this.choices.sort(() => Math.random() - 0.5);
   }
 }
