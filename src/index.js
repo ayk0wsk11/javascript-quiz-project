@@ -58,14 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /************  SHOW INITIAL CONTENT  ************/
 
   // Convert the time remaining in seconds to minutes and seconds, and pad the numbers with zeros if needed
-  const minutes = Math.floor(quiz.timeRemaining / 60)
-    .toString()
-    .padStart(2, "0");
-  const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
-
-  // Display the time remaining in the time remaining container
-  const timeRemainingContainer = document.getElementById("timeRemaining");
-  timeRemainingContainer.innerText = `${minutes}:${seconds}`;
+  setTimer();
 
   // Show first question
   showQuestion();
@@ -73,7 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
   /************  TIMER  ************/
 
   let timer;
-
+  startTimer(); 
+ 
   /************  EVENT LISTENERS  ************/
 
   nextButton.addEventListener("click", nextButtonHandler);
@@ -85,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // nextButtonHandler() - Handles the click on the next button
   // restartButtonHandler() - Handles the click on the restart button
   // showResults() - Displays the end view and the quiz results
+  // setTimer() - Updates HTML
 
   function showQuestion() {
     // If the quiz has ended, show the results
@@ -189,6 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
     quiz.currentQuestionIndex = 0;
     quiz.shuffleQuestions();
     console.log("restartButtonHandler(): RESTART");
+    quiz.timeRemaining = quizDuration;
+    startTimer();
     showQuestion();
   }
 
@@ -206,5 +203,23 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(
       `showResults(): ${quiz.correctAnswers} / ${quiz.questions.length}`
     );
+    clearInterval(timer);
+  }
+
+  function startTimer() {
+  timer = setInterval(() => {
+    setTimer();
+    quiz.timeRemaining--;
+    if (!quiz.timeRemaining) showResults();
+  }, 1000);
+}
+
+  function setTimer() {
+    const minutes = Math.floor(quiz.timeRemaining / 60)
+      .toString()
+      .padStart(2, "0");
+    const seconds = (quiz.timeRemaining % 60).toString().padStart(2, "0");
+    const timeRemainingContainer = document.getElementById("timeRemaining");
+    timeRemainingContainer.innerText = `${minutes}:${seconds}`;
   }
 });
